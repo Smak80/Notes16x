@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="add">#FF20B020</color>
+    <color name="remove">#FFB02020</color>
+    <color name="high_priority">#FFD04040</color>
+    <color name="standart_priority">#FF40D040</color>
+    <color name="low_priority">#FFB0B0B0</color>
+</resources>

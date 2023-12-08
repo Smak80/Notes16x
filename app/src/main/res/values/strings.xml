@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Notes16x</string>
+    <string name="edit_note">Edit note</string>
+    <string name="e_title">Заголовок заметки</string>
+    <string name="e_text">Текст заметки</string>
+    <string name="e_time">Дата и время редактирования заметки</string>
+</resources>
