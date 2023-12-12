@@ -19,4 +19,8 @@ class NoteData {
         priority = note.priority
         time = note.time
     }
+
+    fun toNote() = Note(
+        id, title, text, priority, time
+    )
 }

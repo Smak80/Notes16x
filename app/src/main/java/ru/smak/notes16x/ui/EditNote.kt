@@ -44,7 +44,7 @@ fun NoteEditor(
         ) {
             OutlinedTextField(
                 value = note.title,
-                onValueChange = {note.title = it},
+                onValueChange = { note.title = it },
                 modifier = Modifier.fillMaxWidth(),
                 label = { Text(stringResource(R.string.e_title)) },
                 singleLine = true,

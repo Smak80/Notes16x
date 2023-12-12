@@ -44,6 +44,9 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     title = stringResource(id = mvm.titleId),
                     viewMode = mvm.viewMode,
+                    onAddNote = {mvm.toNoteView(Note())},
+                    onBack = mvm::toListView,
+                    onSaveCurrentNote = mvm::addNewNote
                 ){
                     if (mvm.viewMode == ViewMode.LIST){
                         NotesList(
@@ -51,7 +54,7 @@ class MainActivity : ComponentActivity() {
                         )
                     } else {
                         NoteEditor(
-                            NoteData()
+                            mvm.noteData
                         )
                     }
                 }
@@ -66,6 +69,9 @@ fun MainUI(
     modifier: Modifier = Modifier,
     title: String = "",
     viewMode: ViewMode = ViewMode.LIST,
+    onAddNote: ()->Unit = {},
+    onBack: ()->Unit = {},
+    onSaveCurrentNote: ()->Unit = {},
     content: @Composable ()->Unit
 ){
     Scaffold(
@@ -78,7 +84,9 @@ fun MainUI(
                     )
                 },
                 navigationIcon = { if (viewMode == ViewMode.NOTE) {
-                    FilledTonalIconButton(onClick = { /*TODO*/ }) {
+                    FilledTonalIconButton(onClick = {
+                        onBack()
+                    }) {
                         Icon(
                             painter = painterResource(id = R.drawable.twotone_arrow_back_ios_24),
                             contentDescription = null
@@ -86,7 +94,9 @@ fun MainUI(
                     }
                 } },
                 actions = {if (viewMode == ViewMode.NOTE){
-                    FilledTonalIconButton(onClick = { /*TODO*/ }) {
+                    FilledTonalIconButton(onClick = {
+                        onSaveCurrentNote()
+                    }) {
                         Icon(
                             painter = painterResource(id = R.drawable.twotone_check_24),
                             contentDescription = null
@@ -111,7 +121,9 @@ fun MainUI(
             if (viewMode == ViewMode.LIST) {
                 OutlinedIconButton(
                     modifier = Modifier.defaultMinSize(48.dp, 48.dp),
-                    onClick = { /*TODO*/ }
+                    onClick = {
+                        onAddNote()
+                    }
                 ) {
                     Icon(
                         painter = painterResource(id = R.drawable.twotone_playlist_add_circle_48),
