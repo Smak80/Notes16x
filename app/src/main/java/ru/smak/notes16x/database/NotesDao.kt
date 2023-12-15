@@ -11,7 +11,8 @@ import java.time.LocalDateTime
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 
-class NotesDao(context: Context) : SQLiteOpenHelper(context, NOTES_DB_NAME, null, 1) {
+class NotesDao(context: Context) :
+    SQLiteOpenHelper(context, NOTES_DB_NAME, null, 1) {
 
     companion object{
         const val NOTES_DB_NAME = "Notes"

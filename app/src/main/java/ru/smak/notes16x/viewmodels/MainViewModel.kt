@@ -10,6 +10,7 @@ import ru.smak.notes16x.NoteData
 import ru.smak.notes16x.R
 import ru.smak.notes16x.database.NotesDao
 import ru.smak.notes16x.ui.ViewMode
+import java.time.LocalDateTime
 
 class MainViewModel(app: Application) : AndroidViewModel(app) {
 
@@ -19,14 +20,18 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
         NotesDao(getApplication<Application>().applicationContext)
     }
 
-    var currentNote: Note? = null
+    private var currentNote: Note? = null
     var noteData: NoteData = NoteData()
+    var showRemoveRequest by mutableStateOf(false)
 
     val titleId: Int
         get() = when(viewMode){
             ViewMode.LIST -> R.string.app_name
             ViewMode.NOTE -> R.string.edit_note
         }
+
+    val notes: List<Note>
+        get() = dao.getAllNotes()
 
     fun toNoteView(note: Note) {
         currentNote = note
@@ -38,9 +43,25 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
         viewMode = ViewMode.LIST
     }
 
-    fun addNewNote() {
+    fun saveNote() {
         currentNote = noteData.toNote().also{
-            dao.addNote(it)
+            it.time = LocalDateTime.now()
+            if (it.id == 0)
+                dao.addNote(it)
+            else
+                dao.editNote(it)
         }
+        toListView()
     }
+
+    fun removeNoteRequest(note: Note){
+        currentNote = note
+        showRemoveRequest = true
+    }
+
+    fun removeCurrentNote() = currentNote?.let{
+        showRemoveRequest = false
+        dao.deleteNote(it)
+    }
+
 }

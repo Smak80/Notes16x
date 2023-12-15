@@ -15,6 +15,8 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.items
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -28,6 +30,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -77,7 +80,9 @@ fun NotesListPreview(){
                 Note(id = 4, title="Заметка 4", text = "Текст заметки 4"),
                 Note(id = 5, text = "Текст заметки 5", priority = 1),
             ),
-            Modifier.fillMaxSize().padding(6.dp)
+            Modifier
+                .fillMaxSize()
+                .padding(6.dp)
         )
     }
 }
@@ -131,7 +136,9 @@ fun NoteCard(
                 }
                 Spacer(modifier = Modifier.height(8.dp))
                 Row(
-                    modifier = Modifier.fillMaxWidth().padding(0.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(0.dp),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
@@ -169,4 +176,43 @@ fun NoteCardPreview(){
     NoteCard(
         Note(id = 2, title="Заметка 2", text = "Текст заметки 2 это очень очень очень очень очень очень очень очень очень длииииииииииииииинный текст"),
     )
+}
+
+@Composable
+fun DeleteRequest(
+    modifier: Modifier = Modifier,
+    showRequest: Boolean = false,
+    onDismiss: ()->Unit = {},
+    onConfirm: ()->Unit = {},
+){
+    if (showRequest) {
+        AlertDialog(
+            onDismissRequest = { onDismiss() },
+            confirmButton = {
+                Button(onClick = { onConfirm() }) {
+                    Text(text = stringResource(id = R.string.yes))
+                }
+            },
+            dismissButton = {
+                Button(onClick = { onDismiss() }) {
+                    Text(text = stringResource(id = R.string.no))
+                }
+            },
+            icon = {
+                Icon(
+                    painterResource(id = R.drawable.twotone_delete_forever_24),
+                    contentDescription = null,
+                    tint = colorResource(id = R.color.remove)
+                )
+            },
+            title = { Text(stringResource(id = R.string.remove_dlg_title)) },
+            text = { Text(stringResource(id = R.string.remove_dlg_text)) },
+        )
+    }
+}
+
+@Preview
+@Composable
+fun DeleteRequestPreview(){
+    DeleteRequest(showRequest = true)
 }

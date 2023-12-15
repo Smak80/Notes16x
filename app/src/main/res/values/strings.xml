@@ -4,4 +4,8 @@
     <string name="e_title">Заголовок заметки</string>
     <string name="e_text">Текст заметки</string>
     <string name="e_time">Дата и время редактирования заметки</string>
+    <string name="remove_dlg_title">Удаление заметки</string>
+    <string name="remove_dlg_text">Вы действительно хотите удалить заметку?</string>
+    <string name="no">Нет</string>
+    <string name="yes">Да</string>
 </resources>

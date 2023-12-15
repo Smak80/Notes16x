@@ -24,6 +24,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModelProvider
+import ru.smak.notes16x.ui.DeleteRequest
 import ru.smak.notes16x.ui.NoteEditor
 import ru.smak.notes16x.ui.NotesList
 import ru.smak.notes16x.ui.ViewMode
@@ -46,11 +47,21 @@ class MainActivity : ComponentActivity() {
                     viewMode = mvm.viewMode,
                     onAddNote = {mvm.toNoteView(Note())},
                     onBack = mvm::toListView,
-                    onSaveCurrentNote = mvm::addNewNote
+                    onSaveCurrentNote = mvm::saveNote
                 ){
                     if (mvm.viewMode == ViewMode.LIST){
+                        DeleteRequest(
+                            showRequest = mvm.showRemoveRequest,
+                            onDismiss = {
+                                mvm.showRemoveRequest = false
+                            }
+                        ){
+                            mvm.removeCurrentNote()
+                        }
                         NotesList(
-                            listOf()
+                            mvm.notes,
+                            onEditNoteRequest = mvm::toNoteView,
+                            onRemoveNoteRequest = mvm::removeNoteRequest
                         )
                     } else {
                         NoteEditor(
